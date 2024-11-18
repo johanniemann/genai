@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = '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'; // Replace with your actual OpenAI API key
+const OPENAI_API_KEY = 'xxx'; // Replace with your actual OpenAI API key
 
 const form = document.querySelector("#ingredient-form");
 const suggestionsElement = document.querySelector("#suggestions");
