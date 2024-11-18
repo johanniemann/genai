@@ -1,33 +1,36 @@
-const API_KEY = "xxx"; // Replace with your actual API key
-const MODEL_ID = "tiiuae/falcon-7b-instruct"; // Confirm this model ID is correct
+const OPENAI_API_KEY = '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'; // Replace with your actual OpenAI API key
 
-const form = document.querySelector("#question-form");
-const answerElement = document.querySelector("#answer");
+const form = document.querySelector("#ingredient-form");
+const suggestionsElement = document.querySelector("#suggestions");
 
-// The base prompt to send to the AI
-const basePrompt = "In the following city, give me the top 10 most famous people from that city, only people!!!: ";
+// Base prompt for dish suggestions
+const basePrompt = "Give me the top 10 most famous people from the following city, and make it a list: ";
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent page reload
-    const city = document.querySelector("#city").value.trim();
+    const ingredient = document.querySelector("#ingredient").value.trim();
 
-    if (!city) {
-        answerElement.textContent = "Please enter a valid city.";
+    if (!ingredient) {
+        suggestionsElement.textContent = "Please enter a valid ingredient.";
         return;
     }
 
-    answerElement.textContent = "Loading...";
+    suggestionsElement.textContent = "Loading...";
 
     try {
-        const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL_ID}`, {
-            method: "POST",
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
             headers: {
-                "Authorization": `Bearer ${API_KEY}`,
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
             },
             body: JSON.stringify({
-                inputs: `${basePrompt}${city}`, // Combine the base prompt with the city
-                parameters: { max_length: 500 }
+                model: 'gpt-4',
+                messages: [{
+                    role: 'user',
+                    content: `${basePrompt}${ingredient}`
+                }],
+                max_tokens: 500
             })
         });
 
@@ -36,18 +39,18 @@ form.addEventListener("submit", async (event) => {
             throw new Error(`API error: ${response.status} ${response.statusText} - ${errorText}`);
         }
 
-        const data = await response.json();
+        const suggestionData = await response.json();
+        console.log("API Response:", suggestionData);
 
-        // Extract and display only the AI's response, skipping the input prompt
-        const generatedText = data?.[0]?.generated_text;
+        // Extract and display the AI's response
+        const generatedText = suggestionData?.choices?.[0]?.message?.content;
         if (generatedText) {
-            // Ensure we only display the AI's output (trim whitespace if necessary)
-            answerElement.textContent = generatedText.trim();
+            suggestionsElement.textContent = generatedText;
         } else {
-            answerElement.textContent = "No suggestion was generated. Please try again.";
+            suggestionsElement.textContent = "No suggestions were generated. Please try again.";
         }
     } catch (error) {
         console.error("Error:", error);
-        answerElement.textContent = `An error occurred: ${error.message}`;
+        suggestionsElement.textContent = `An error occurred: ${error.message}`;
     }
 });
