@@ -1,11 +1,11 @@
-const API_KEY = "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"; // Replace with your actual API key
+const API_KEY = "xxx"; // Replace with your actual API key
 const MODEL_ID = "tiiuae/falcon-7b-instruct"; // Confirm this model ID is correct
 
 const form = document.querySelector("#question-form");
 const answerElement = document.querySelector("#answer");
 
 // The base prompt to send to the AI
-const basePrompt = "In the following city, give me the top 10 most famous people from that city, it has to be people!!!!!: ";
+const basePrompt = "In the following city, give me the top 10 most famous people from that city, only people!!!: ";
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent page reload
@@ -27,7 +27,7 @@ form.addEventListener("submit", async (event) => {
             },
             body: JSON.stringify({
                 inputs: `${basePrompt}${city}`, // Combine the base prompt with the city
-                parameters: { max_length: 1000 }
+                parameters: { max_length: 500 }
             })
         });
 
@@ -38,10 +38,11 @@ form.addEventListener("submit", async (event) => {
 
         const data = await response.json();
 
-        // Extract and display only the answer from the response
+        // Extract and display only the AI's response, skipping the input prompt
         const generatedText = data?.[0]?.generated_text;
         if (generatedText) {
-            answerElement.textContent = generatedText;
+            // Ensure we only display the AI's output (trim whitespace if necessary)
+            answerElement.textContent = generatedText.trim();
         } else {
             answerElement.textContent = "No suggestion was generated. Please try again.";
         }
