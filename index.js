@@ -1,17 +1,17 @@
-const OPENAI_API_KEY = ''; // Replace with your actual OpenAI API key
+const OPENAI_API_KEY = 'xxx'; // Replace with your actual OpenAI API key
 
 const form = document.querySelector("#ingredient-form");
 const suggestionsElement = document.querySelector("#suggestions");
 
-// Base prompt for dish suggestions
-const basePrompt = "Give me the top 10 most famous people from the following city, and make it a list: ";
+// Base prompt
+const basePrompt = "You must only answer when a legitimately cityname is coming after the ':' in the very end of this prompt (small letters and spellingerrors is okay), otherwise answer with 'Not a city'. Also when stating a new person put a \"•\" in front. Give me the top 10 most famous people from the following city: ";
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent page reload
     const ingredient = document.querySelector("#ingredient").value.trim();
 
     if (!ingredient) {
-        suggestionsElement.textContent = "Please enter a valid ingredient.";
+        suggestionsElement.textContent = "Please enter a valid city.";
         return;
     }
 
@@ -41,10 +41,12 @@ form.addEventListener("submit", async (event) => {
         const suggestionData = await response.json();
         console.log("API Response:", suggestionData);
 
-        // Extract and display the AI's response
+        // Extract and format the AI's response
         const generatedText = suggestionData?.choices?.[0]?.message?.content;
         if (generatedText) {
-            suggestionsElement.textContent = generatedText;
+            const peopleArray = generatedText.split("•").map(person => person.trim()).filter(person => person !== "");
+            const formattedList = `<ul>${peopleArray.map(person => `<li>${person}</li>`).join("")}</ul>`;
+            suggestionsElement.innerHTML = formattedList;
         } else {
             suggestionsElement.textContent = "No suggestions were generated. Please try again.";
         }

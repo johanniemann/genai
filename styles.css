@@ -1,0 +1,109 @@
+/* General Reset */
+body, h1, h2, p, ul, li, input, button, form {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #c8e0f8;
+    color: #333;
+    padding: 20px;
+    text-align: center; /* Center align content */
+}
+
+/* Header Styling */
+h1 {
+    text-align: center;
+    color: #4e5fba;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 20px;
+    color: #555;
+    text-align: center; /* Ensure heading stays centered */
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #0020df;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 10px;
+}
+
+form button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #000000;
+    background-color: #7482c1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #5164bd;
+}
+
+/* Suggestions Section */
+#suggestions {
+    background: #ffffff;
+    border: 1px solid #0020df;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 50px;
+}
+
+/* List Styling */
+#suggestions ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    text-align: left; /* Ensure list items are left-aligned for readability */
+}
+
+#suggestions li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+/* Loading Text */
+#suggestions:empty::before {
+    content: "People will appear here...";
+    color: #aaa;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    form input {
+        width: 90%;
+    }
+
+    #suggestions {
+        padding: 15px;
+    }
+}
