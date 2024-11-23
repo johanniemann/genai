@@ -1,4 +1,4 @@
-const Noegle = 'xxx'; // Replace with your actual OpenAI API key
+const Noeglee = 'xxx'; // Replace with your actual OpenAI API key
 
 const form = document.querySelector("#ingredient-form");
 const suggestionsElement = document.querySelector("#suggestions");
@@ -21,7 +21,7 @@ form.addEventListener("submit", async (event) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${Noegle}`
+                'Authorization': `Bearer ${Noeglee}`
             },
             body: JSON.stringify({
                 model: 'gpt-4',
