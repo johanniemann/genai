@@ -1,4 +1,4 @@
-//const OPENAI_API_KEYY = 'xxx'; // Replace with your actual OpenAI API key
+const OPENAI_API_KEYY = 'xxx'; // Replace with your actual OpenAI API key
 
 const form = document.querySelector("#ingredient-form");
 const suggestionsElement = document.querySelector("#suggestions");
